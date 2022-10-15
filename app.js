@@ -6,47 +6,57 @@ const searchInput = document.querySelector('.form-search input[name=search]')
 
 
 // functions
+const clearInput = input => input.value = ''
+
+const hideTodo = todo => {
+  todo.classList.remove('d-flex')
+  todo.classList.add('d-none')
+}
+
+const showTodo = todo => {
+  todo.classList.remove('d-none')
+  todo.classList.add('d-flex')
+}
+
 const addTodo = event => {
   event.preventDefault()
 
-  const todo = event.target.add.value
+  const addInput = event.target.add
 
   const todoTemplateHTML = `
     <li class="list-group-item d-flex justify-content-between align-items-center">
-      <span>${todo}</span>
+      <span>${addInput.value}</span>
       <i class="far fa-trash-alt delete"></i>
     </li>
   `
 
   todoList.innerHTML += todoTemplateHTML
-
-  event.target.add.value = ''
+  clearInput(addInput)
 }
 
 const deleteTodo = event => {
-  if (event.target.classList.contains('delete')) {
-    event.target.parentElement.remove()
+  const clickedElement = event.target
+  const shouldDelete = clickedElement.classList.contains('delete')
+
+  if (shouldDelete) clickedElement.parentElement.remove()
+}
+
+const checkSearchMatch = (todo, value) => {
+  const match = todo.textContent.toLowerCase().includes(value)
+
+  if (!match) {
+    hideTodo(todo)
+    return
   }
+
+  showTodo(todo)
 }
 
 const searchTodo = event => {
-  const search = event.target.value.toLowerCase()
-  const todoChildren = Array.from(todoList.children)
+  const value = event.target.value.toLowerCase()
+  const todos = Array.from(todoList.children)
 
-  todoChildren.forEach(todo => {
-
-    if (!todo.textContent.toLowerCase().includes(search)) {
-      todo.classList.remove('d-flex')
-      todo.classList.add('d-none')
-
-      return
-    }
-
-    if (todo.textContent.includes(search)) {
-      todo.classList.remove('d-none')
-      todo.classList.add('d-flex')
-    }
-  })
+  todos.forEach(checkSearchMatch, value)
 }
 
 const preventDefault = event => event.preventDefault()
