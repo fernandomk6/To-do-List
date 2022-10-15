@@ -13,7 +13,6 @@ const showFeedback = (feedback, type) => {
     feedbackElement.classList.remove('text-success')
     feedbackElement.classList.add('text-danger')
     feedbackElement.innerHTML = `${feedback} <i class="fas fa-times"></i>`
-
   }
 
   if (isSuccessFeedback) {
@@ -52,7 +51,6 @@ const toggleEmptyListMessage = action => {
 
   if (show) emptyListElement.classList.remove('d-none')
   if (hide) emptyListElement.classList.add('d-none')
-  
 }
 
 const addTodo = event => {
