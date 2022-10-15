@@ -1,15 +1,12 @@
 // global variables
-const todos = document.querySelector('.todos-container')
-const formAdd = document.querySelector('.form-add-todo')
-const formSearch = document.querySelector('.form-search')
-const searchInput = formSearch.search
+const todoList = document.querySelector('.todos-container')
+const addForm = document.querySelector('.form-add-todo')
+const searchForm = document.querySelector('.form-search')
+const searchInput = document.querySelector('.form-search input[name=search]')
 
 
 // functions
-
-
-// events
-formAdd.addEventListener('submit', event => {
+const addTodo = event => {
   event.preventDefault()
 
   const todo = event.target.add.value
@@ -21,25 +18,20 @@ formAdd.addEventListener('submit', event => {
     </li>
   `
 
-  todos.innerHTML += todoTemplateHTML
+  todoList.innerHTML += todoTemplateHTML
 
   event.target.add.value = ''
-})
+}
 
-todos.addEventListener('click', event => {
+const deleteTodo = event => {
   if (event.target.classList.contains('delete')) {
     event.target.parentElement.remove()
   }
-})
+}
 
-formSearch.addEventListener('submit', event => {
-  event.preventDefault()
-})
-
-searchInput.addEventListener('input', event => {
+const searchTodo = event => {
   const search = event.target.value.toLowerCase()
-
-  const todoChildren = Array.from(todos.children)
+  const todoChildren = Array.from(todoList.children)
 
   todoChildren.forEach(todo => {
 
@@ -55,4 +47,12 @@ searchInput.addEventListener('input', event => {
       todo.classList.add('d-flex')
     }
   })
-})
+}
+
+const preventDefault = event => event.preventDefault()
+
+// events
+addForm.addEventListener('submit', addTodo)
+todoList.addEventListener('click', deleteTodo)
+searchForm.addEventListener('submit', preventDefault)
+searchInput.addEventListener('input', searchTodo)

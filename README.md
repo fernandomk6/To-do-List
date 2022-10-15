@@ -2,11 +2,9 @@
 
 To do List, desenvolvido com JavaScript puro.
 
-## Ações
+## Melhorias futuras
 
-- Cadastrar to do
-- Excluir to do
-- Pesquisar
-- Alterar cores
-- Não usar features não mostradas no cjrm até a etapa 9
-- Não usar bibliotecas externas
+- Refatorar funções
+- Quando adicionar um todo ele ir para o topo da lista
+- Ao digitar um novo todo, exibir um feedback se o conteudo é valido
+- Validar o cadastro de todo
