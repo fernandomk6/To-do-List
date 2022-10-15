@@ -6,6 +6,28 @@ const searchInput = document.querySelector('.form-search input[name=search]')
 const feedbackAddElement = document.querySelector('.feedback-add')
 const feedbackListElement = document.querySelector('.feedback-list')
 
+const showErrorFeedback = feedback => {
+  feedbackAddElement.classList.remove('text-success')
+  feedbackAddElement.classList.add('text-danger')
+  feedbackAddElement.textContent = feedback
+
+  clearFeedback(feedbackAddElement)
+}
+
+const showSuccessFeedback = feedback => {
+  feedbackAddElement.classList.remove('text-danger')
+  feedbackAddElement.classList.add('text-success')
+  feedbackAddElement.textContent = feedback
+
+  clearFeedback(feedbackAddElement)
+}
+
+const clearFeedback = element => {
+  setTimeout(() => {
+    clearTextContent(element)
+  }, 2000)
+}
+
 const hideTodo = todo => {
   todo.classList.remove('d-flex')
   todo.classList.add('d-none')
@@ -14,28 +36,6 @@ const hideTodo = todo => {
 const showTodo = todo => {
   todo.classList.remove('d-none')
   todo.classList.add('d-flex')
-}
-
-const showErrorFeedback = feedback => {
-  feedbackAddElement.classList.remove('text-success')
-  feedbackAddElement.classList.add('text-danger')
-  feedbackAddElement.textContent = feedback
-
-  clearFeedbackElement(feedbackAddElement)
-}
-
-const showSuccessFeedback = feedback => {
-  feedbackAddElement.classList.remove('text-danger')
-  feedbackAddElement.classList.add('text-success')
-  feedbackAddElement.textContent = feedback
-
-  clearFeedbackElement(feedbackAddElement)
-}
-
-const clearFeedbackElement = element => {
-  setTimeout(() => {
-    clearTextContent(element)
-  }, 2000)
 }
 
 const addTodo = event => {
@@ -90,29 +90,11 @@ const searchTodo = event => {
   validResults.forEach(showTodo)
 }
 
-const showAddTodoFeedback = event => {
-  const value = event.target.value
-  clearTextContent(feedbackAddElement)
-
-  if (isValidTodo(value)) {
-    showSuccessFeedback('Tarefa válida')
-    return
-  }
-}
-
-const preventDefault = event => {
-  event.preventDefault()
-  event.target.reset()
-}
-
+const preventDefault = event => event.preventDefault()
 const clearTextContent = element => element.textContent = ''
-
 const isValidTodo = todo => todo.length >= 4
-
 
 addForm.addEventListener('submit', addTodo)
 todoList.addEventListener('click', deleteTodo)
 searchForm.addEventListener('submit', preventDefault)
 searchInput.addEventListener('input', searchTodo)
-addInput.addEventListener('input', showAddTodoFeedback)
-
