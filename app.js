@@ -12,13 +12,14 @@ const showFeedback = (feedback, type) => {
   if (isErrorFeedback) {
     feedbackElement.classList.remove('text-success')
     feedbackElement.classList.add('text-danger')
-    feedbackElement.textContent = feedback
+    feedbackElement.innerHTML = `${feedback} <i class="fas fa-times"></i>`
+
   }
 
   if (isSuccessFeedback) {
     feedbackElement.classList.remove('text-danger')
     feedbackElement.classList.add('text-success')
-    feedbackElement.textContent = feedback
+    feedbackElement.innerHTML = `${feedback} <i class="fas fa-check"></i>`
   }
 
   clearFeedback(feedbackElement)
@@ -105,6 +106,15 @@ const searchTodo = event => {
 
   invalidResults.forEach(todo => toggleVisibilityTodo(todo, 'hide'))
   validResults.forEach(todo => toggleVisibilityTodo(todo, 'show'))
+
+  const isEmptyResult = validResults.length === 0
+
+  if (isEmptyResult) {
+    toggleEmptyListMessage('show')
+    return
+  }
+
+  toggleEmptyListMessage('hide')
 }
 
 const preventDefault = event => event.preventDefault()
