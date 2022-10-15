@@ -16,21 +16,41 @@ const showTodo = todo => {
   todo.classList.add('d-flex')
 }
 
-const isValidTodo = todo => todo.length >= 4
+const showErrorFeedback = feedback => {
+  feedbackAddElement.classList.remove('text-success')
+  feedbackAddElement.classList.add('text-danger')
+  feedbackAddElement.textContent = feedback
+
+  clearFeedbackElement(feedbackAddElement)
+}
+
+const showSuccessFeedback = feedback => {
+  feedbackAddElement.classList.remove('text-danger')
+  feedbackAddElement.classList.add('text-success')
+  feedbackAddElement.textContent = feedback
+
+  clearFeedbackElement(feedbackAddElement)
+}
+
+const clearFeedbackElement = element => {
+  setTimeout(() => {
+    clearTextContent(element)
+  }, 2000)
+}
 
 const addTodo = event => {
   event.preventDefault()
-  clearTextContent(feedbackAddElement)
 
   const input = event.target.add
   const value = input.value.trim()
-
+  const isEmptyTodoList = todoList.children.length === 0
+  
   if (!isValidTodo(value)) {
-    feedbackAddElement.classList.remove('text-success')
-    feedbackAddElement.classList.add('text-danger')
-    feedbackAddElement.textContent = 'A tarefa deve conter pelo menos 4 letras'
+    showErrorFeedback('A tarefa deve conter pelo menos 4 letras')
     return
   }
+
+  if (isEmptyTodoList) feedbackListElement.classList.add('d-none')
 
   const todoTemplateHTML = `
     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -41,17 +61,8 @@ const addTodo = event => {
 
   todoList.innerHTML += todoTemplateHTML
 
-  feedbackAddElement.classList.remove('text-danger')
-  feedbackAddElement.classList.add('text-success')
-  feedbackAddElement.textContent = 'Tarefa adicionada'
-
   addForm.reset()
-
-  feedbackListElement.classList.add('d-none')
-
-  setTimeout(() => {
-    clearTextContent(feedbackAddElement)
-  }, 2000)
+  showSuccessFeedback('Tarefa adicionada')
 }
 
 const deleteTodo = event => {
@@ -62,13 +73,7 @@ const deleteTodo = event => {
 
   if (todoList.children.length === 0) feedbackListElement.classList.remove('d-none')
 
-  feedbackAddElement.classList.remove('text-success')
-  feedbackAddElement.classList.add('text-danger')
-  feedbackAddElement.textContent = 'Terefa removida'
-
-  setTimeout(() => {
-    clearTextContent(feedbackAddElement)
-  }, 2000)
+  showErrorFeedback('Terefa removida')
 }
 
 const searchTodo = event => {
@@ -90,28 +95,24 @@ const showAddTodoFeedback = event => {
   clearTextContent(feedbackAddElement)
 
   if (isValidTodo(value)) {
-    feedbackAddElement.classList.remove('text-danger')
-    feedbackAddElement.classList.add('text-success')
-    feedbackAddElement.textContent = 'Tarefa válida'
+    showSuccessFeedback('Tarefa válida')
     return
   }
 }
-
-const clearTextContent = element => element.textContent = ''
 
 const preventDefault = event => {
   event.preventDefault()
   event.target.reset()
 }
 
-const init = () => {
-  if (todoList.children.length === 0) feedbackListElement.classList.remove('d-none')
+const clearTextContent = element => element.textContent = ''
 
-  addForm.addEventListener('submit', addTodo)
-  todoList.addEventListener('click', deleteTodo)
-  searchForm.addEventListener('submit', preventDefault)
-  searchInput.addEventListener('input', searchTodo)
-  addInput.addEventListener('input', showAddTodoFeedback)
-}
+const isValidTodo = todo => todo.length >= 4
 
-init()
+
+addForm.addEventListener('submit', addTodo)
+todoList.addEventListener('click', deleteTodo)
+searchForm.addEventListener('submit', preventDefault)
+searchInput.addEventListener('input', searchTodo)
+addInput.addEventListener('input', showAddTodoFeedback)
+
