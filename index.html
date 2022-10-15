@@ -17,26 +17,13 @@
       </form>
     </header>
 
-    <ul class="todos-container list-group mx-auto text-light">
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <span>Assistir Breaking Bad</span>
-        <i class="far fa-trash-alt delete"></i>
-      </li>
-
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <span>Planejar aulas</span>
-        <i class="far fa-trash-alt delete"></i>
-      </li>
-
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <span>Fazer exercícios físicos</span>
-        <i class="far fa-trash-alt delete"></i>
-      </li>
-    </ul>
+    <p class="feedback-list text-center text-dark h4 d-none">Nenhuma tarefa encontrada</p>
+    <ul class="todos-container list-group mx-auto text-light"></ul>
 
     <form class="form-add-todo text-center my-4">
       <label class="text-light">Adicionar to-do</label>
       <input class="form-control m-auto text-dark" type="text" name="add" placeholder="Adicionar to do"/>
+      <p class="feedback-add p-2"></p>
     </form>
   </div>
 
